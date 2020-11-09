@@ -1,6 +1,9 @@
 from flask_restful import Resource
-from flask import request, jsonify, Response
+from flask import request, Response
+from marshmallow import ValidationError
 from api.extensions import db
+from api.schemas import messages
+
 
 class Messages(Resource):
     def get(self):
@@ -31,10 +34,20 @@ class Messages(Resource):
 
             return [messages_id1, messages_id2]
 
-        return Response("Hubo un error :whale:", status=400)
+        return "Hubo un error :whale:", 400
 
     def post(self):
-        pass
+        body = request.get_json()
+        errors = messages.ValidateMessagesSchema().validate(body)
+        if errors:
+            return errors, 400
+
+        new_id = int(db.messages.find({}, {'_id': 0, 'mid': 1}).sort(
+            [('mid', -1)]).limit(1)[0]['mid']) + 1
+
+        body['mid'] = new_id
+        db.messages.insert(messages.MessagesPOSTSchema().load(body))
+        return Response(status=204)
 
 class Message(Resource):
     def get(self, id):
