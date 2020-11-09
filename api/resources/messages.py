@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from flask import request, jsonify
+from flask import request, jsonify, Response
 from api.extensions import db
 
 class Messages(Resource):
@@ -31,7 +31,7 @@ class Messages(Resource):
 
             return [messages_id1, messages_id2]
 
-        return "Hubo un error :whale:"
+        return Response("Hubo un error :whale:", status=400)
 
     def post(self):
         pass
@@ -42,4 +42,8 @@ class Message(Resource):
         return message
 
     def delete(self, id):
-        pass
+        if not db.messages.find_one({'mid': id}):
+            return 'mensaje inexistente'
+
+        db.messages.delete_one({'mid': id})
+        return Response(status=204)
