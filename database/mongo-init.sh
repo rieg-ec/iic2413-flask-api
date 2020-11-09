@@ -14,8 +14,8 @@ db.createUser({
   }]
 });
 EOF
-mongoimport -c usuarios -d $MONGO_DB --mode upsert --type json --jsonArray --file data/usuarios.json
-mongoimport -c mensajes -d $MONGO_DB --mode upsert --type json --jsonArray --file data/mensajes.json
+mongoimport -c users -d $MONGO_DB --mode upsert --type json --jsonArray --file data/usuarios.json
+mongoimport -c messages -d $MONGO_DB --mode upsert --type json --jsonArray --file data/mensajes.json
 else
     echo "env variables not provided"
     exit 403
