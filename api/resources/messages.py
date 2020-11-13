@@ -1,17 +1,16 @@
 from flask_restful import Resource
 from flask import request, Response
-from marshmallow import ValidationError
 from api.extensions import db
 from api.schemas import messages
 
 
 class Messages(Resource):
+
     def get(self):
         if len(request.args) == 0:
-            messages = [i for i in db.messages.find({}, {'_id': 0})]
-            return messages
+            return [i for i in db.messages.find({}, {'_id': 0})]
 
-        if request.args['id1'] and request.args['id2']:
+        elif request.args['id1'] and request.args['id2']:
             try:
                 id1 = int(request.args['id1'])
                 id2 = int(request.args['id2'])
@@ -49,10 +48,11 @@ class Messages(Resource):
         db.messages.insert(messages.MessagesPOSTSchema().load(body))
         return Response(status=204)
 
+
 class Message(Resource):
+
     def get(self, id):
-        message = db.messages.find_one({'mid': id}, {'_id': 0})
-        return message
+        return db.messages.find_one({'mid': id}, {'_id': 0})
 
     def delete(self, id):
         if not db.messages.find_one({'mid': id}):
