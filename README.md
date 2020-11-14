@@ -25,7 +25,7 @@ Crear archivo .env con las siguientes variables:
 
 response: array con todos los mensajes
 
-```
+```json
 [
   {
     "mid": 1,
@@ -47,7 +47,7 @@ response: array con todos los mensajes
 
 response: mensaje con ```mid: id```
 
-```
+```json
 {
     "mid": 13,
     "message": "Te cuento que: Me encanta el metal. Me despido, saludos.",
@@ -64,7 +64,7 @@ response: mensaje con ```mid: id```
 
 body:
 
-```
+```json
 {
     "message": "Mensaje para probar el POST",
     "sender": 1,
