@@ -1,7 +1,7 @@
 from flask_restful import Resource
 from flask import request, Response
 from api.extensions import db
-from api.schemas import messages
+from api.schemas.messages import MessagesPOSTSchema
 
 
 class Messages(Resource):
@@ -37,7 +37,7 @@ class Messages(Resource):
 
     def post(self):
         body = request.get_json()
-        errors = messages.ValidateMessagesSchema().validate(body)
+        errors = MessagesPOSTSchema().validate(body)
         if errors:
             return errors, 400
 
@@ -45,7 +45,9 @@ class Messages(Resource):
             [('mid', -1)]).limit(1)[0]['mid']) + 1
 
         body['mid'] = new_id
-        db.messages.insert(messages.MessagesPOSTSchema().load(body))
+
+        db.messages.insert(body)
+
         return Response(status=204)
 
 
