@@ -2,7 +2,9 @@
 set -e
 
 echo ">>>>>>> trying to create database and users"
-if [ -n "${MONGO_INITDB_ROOT_USERNAME:-}" ] && [ -n "${MONGO_INITDB_ROOT_PASSWORD:-}" ] && [ -n "${MONGO_USER:-}" ] && [ -n "${MONGO_PASSWORD:-}" ]; then
+if [ -n "${MONGO_INITDB_ROOT_USERNAME:-}" ] && [ -n "${MONGO_INITDB_ROOT_PASSWORD:-}" ]\
+ && [ -n "${MONGO_USER:-}" ] && [ -n "${MONGO_PASSWORD:-}" ] && [ -n "${MONGO_URI:-}" ]\
+ && [ -n "${MONGO_DB:-}" ]; then
 mongo -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD<<EOF
 use admin;
 db.createUser({
