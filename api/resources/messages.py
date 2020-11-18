@@ -7,10 +7,10 @@ from api.schemas.messages import MessagesPOSTSchema
 class Messages(Resource):
 
     def get(self):
-        if len(request.args) == 0:
+        if not request.args:
             return [i for i in db.messages.find({}, {'_id': 0})]
 
-        elif request.args['id1'] and request.args['id2']:
+        elif all(arg in list(request.args.keys()) for arg in ['id1', 'id2']):
             try:
                 id1 = int(request.args['id1'])
                 id2 = int(request.args['id2'])
@@ -31,9 +31,9 @@ class Messages(Resource):
                 'receptant': id1
                 }, {'_id': 0})]
 
-            return [messages_id1, messages_id2]
+            return {'result': [messages_id1, messages_id2]}
 
-        return "Hubo un error :whale:", 400
+        return "Hubo un error", 400
 
     def post(self):
         body = request.get_json()
@@ -56,9 +56,9 @@ class Message(Resource):
     def get(self, id):
         return db.messages.find_one({'mid': id}, {'_id': 0})
 
-    def delete(self, id):
-        if not db.messages.find_one({'mid': id}):
-            return 'mensaje inexistente'
 
+class DeleteMessage(Resource):
+    
+    def delete(self, id):
         db.messages.delete_one({'mid': id})
         return Response(status=204)

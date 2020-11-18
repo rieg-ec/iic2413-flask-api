@@ -16,6 +16,7 @@ api = Api(app)
 
 api.add_resource(Messages, '/messages')
 api.add_resource(Message, '/messages/<int:id>')
+api.add_resource(DeleteMessage, '/message/<int:id>')
 
 api.add_resource(Users, '/users')
 api.add_resource(User, '/users/<int:id>')
