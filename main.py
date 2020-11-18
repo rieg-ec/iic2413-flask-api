@@ -2,7 +2,7 @@ from flask import Flask
 from flask_restful import Api
 from decouple import config
 from api.resources import (
-    Messages, Message, TextSearch, Users, User
+    Messages, Message, TextSearch, Users, User, DeleteMessage
 )
 
 app = Flask(__name__)
