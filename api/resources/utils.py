@@ -35,7 +35,8 @@ def build_text_search_pipeline(request_body):
     return pipeline
 
 def filter_forbidden(cursor, forbidden):
-    """ returns filtered cursor object without documents with forbidden words """
+    """ returns filtered list without documents containing
+        forbidden words in message """
     result = []
     for document in cursor:
         has_forbidden = False
