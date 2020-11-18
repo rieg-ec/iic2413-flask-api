@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields, validate, INCLUDE
+from marshmallow import Schema, fields, validate
 
 
 class MessagesPOSTSchema(Schema):
@@ -11,4 +11,3 @@ class MessagesPOSTSchema(Schema):
                         validate=validate.Range(min=-180, max=180))
 
     date = fields.DateTime(format='%Y-%m-%d', required=True)
-    
