@@ -1,3 +1,17 @@
+from flask import Response, jsonify
+
+def custom_response(success=True, payload=None, error=None, status=200):
+    if success:
+        return {
+            'success': success,
+            'payload': payload
+        }, status
+    else:
+        return {
+            'sucess': success,
+            'error': error
+        }, status
+
 
 def build_text_search_pipeline(request_body):
     """ builds pipeline for aggregation query in /text-search endpoint """
