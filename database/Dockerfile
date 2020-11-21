@@ -1,2 +1,2 @@
-FROM mongo:4.4.1-bionic
+FROM mongo:4.0.21-xenial
 COPY ./mongo-init.sh /docker-entrypoint-initdb.d/
