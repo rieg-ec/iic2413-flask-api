@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 from decouple import config
+from api.extensions import custom_response
 from api.resources import (
     Messages, Message, TextSearch, Users, User, DeleteMessage
 )
@@ -11,6 +12,11 @@ app.config.update(
     DEBUG=config('DEBUG'),
     ENV=config('ENV')
 )
+
+@app.errorhandler(Exception)
+def error_handler(error):
+    response = custom_response(success=False, error='Hubo un error')
+    return response
 
 api = Api(app)
 
