@@ -9,8 +9,8 @@ from api.resources import (
 app = Flask(__name__)
 
 app.config.update(
-    DEBUG=config('DEBUG'),
-    ENV=config('ENV')
+    DEBUG=config('DEBUG', default=False, cast=bool),
+    ENV=config('ENV', default='production')
 )
 
 @app.errorhandler(Exception)
