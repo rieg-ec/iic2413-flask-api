@@ -20,6 +20,11 @@ Crear* archivo .env con las siguientes variables:
 3. ```pip install -r requirements.txt```
 4. ```python3 main.py```
 
+### Consideraciones
+
+1. Usamos la extensión [flask-RESTful](https://flask-restful.readthedocs.io/en/latest/) para organizar y simplificar la aplicación
+2. El lenguaje del text index en la base de datos y las consultas es el inglés
+
 ## Endpoints
 
 ### ```GET /messages```
