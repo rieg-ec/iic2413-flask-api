@@ -20,7 +20,7 @@ mongoimport -c users -d $MONGO_DB --mode upsert --type json --jsonArray --file d
 mongoimport -c messages -d $MONGO_DB --mode upsert --type json --jsonArray --file data/files/mensajes.json
 mongo -u $MONGO_USER -p $MONGO_PASSWORD<<EOF
 use grupo42;
-db.messages.createIndex({'message': 'text'});
+db.messages.createIndex({ message: "text" });
 EOF
 else
     echo "env variables not provided"
