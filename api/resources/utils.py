@@ -1,13 +1,3 @@
-from flask import Response, jsonify
-
-def custom_response(success=True, payload=None, error=None, status=200):
-    response = {'success': success}
-    if success:
-        response['payload'] = payload
-    else:
-        response['error'] = error
-
-    return response
 
 
 def build_text_search_pipeline(request_body):

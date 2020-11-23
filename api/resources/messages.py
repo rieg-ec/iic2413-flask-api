@@ -1,8 +1,7 @@
 from flask_restful import Resource
 from flask import request, Response
-from api.extensions import db
+from api.extensions import db, custom_response
 from api.schemas.messages import MessagesPOSTSchema
-from .utils import custom_response
 
 class Messages(Resource):
 
@@ -34,10 +33,7 @@ class Messages(Resource):
             return custom_response(payload=[messages_id1, messages_id2])
 
         except ValueError:
-            return custom_response(success=False, error='invalid url args')
-
-        except Exception as e:
-            return custom_response(success=False, error='hubo un error')
+            return custom_response(success=False, error='url args invalidos')
 
 
     def post(self):
@@ -49,18 +45,13 @@ class Messages(Resource):
         if errors:
             return custom_response(success=False, error=errors)
 
-        try:
-            new_id = int(db.messages.find({}, {'_id': 0, 'mid': 1}).sort(
-                [('mid', -1)]).limit(1)[0]['mid']) + 1
+        new_id = int(db.messages.find({}, {'_id': 0, 'mid': 1}).sort(
+            [('mid', -1)]).limit(1)[0]['mid']) + 1
 
-            body['mid'] = new_id
+        body['mid'] = new_id
 
-            msg = db.messages.insert(body)
-            return custom_response(payload=f'mensaje con mid {new_id} creado')
-
-        except Exception as e:
-            return custom_response(success=False, error='hubo un error')
-
+        msg = db.messages.insert(body)
+        return custom_response(payload=f'mensaje con mid {new_id} creado')
 
 class Message(Resource):
 
@@ -75,12 +66,9 @@ class Message(Resource):
 class DeleteMessage(Resource):
 
     def delete(self, id):
-        try:
-            operation = db.messages.delete_one({'mid': id})
-            if not operation.deleted_count:
-                return custom_response(success=False, error='id inexistente')
 
-            return custom_response(payload=f'mensaje con id {id} eliminado')
+        operation = db.messages.delete_one({'mid': id})
+        if not operation.deleted_count:
+            return custom_response(success=False, error='id inexistente')
 
-        except Exception as e:
-            return custom_response(success=False, error='hubo un error')
+        return custom_response(payload=f'mensaje con id {id} eliminado')

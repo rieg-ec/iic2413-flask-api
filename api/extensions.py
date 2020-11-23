@@ -9,3 +9,13 @@ client = MongoClient(
 )
 
 db = client[config('MONGO_DB')]
+
+
+def custom_response(success=True, payload=None, error=None, status=200):
+    response = {'success': success}
+    if success:
+        response['payload'] = payload
+    else:
+        response['error'] = error
+
+    return response, status
