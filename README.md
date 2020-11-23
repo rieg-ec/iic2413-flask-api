@@ -20,14 +20,6 @@ Crear* archivo .env con las siguientes variables:
 3. ```pip install -r requirements.txt```
 4. ```python3 main.py```
 
-### Libraries used:
-1. [**Marshmallow**](https://marshmallow.readthedocs.io/en/stable/): para validar los parametros del body de las requests
-
-2. [**Flask-restful**](https://flask-restful.readthedocs.io/en/latest/quickstart.html#a-minimal-api): para construir la api de manera organizada y simple
-
-3. [**PyMongo**](https://pymongo.readthedocs.io/en/stable/): mongo driver para la base de datos
-
-
 ## Endpoints
 
 ### ```GET /messages```
@@ -35,17 +27,20 @@ Crear* archivo .env con las siguientes variables:
 response: array con todos los mensajes
 
 ```json
-[
-  {
-    "mid": 1,
-     "message": "Qué tal? Me gustó el hotel que reservé. 10 - 4.",
-     "sender": 86,
-     "receptant": 261,
-     "lat": -51.729782,
-     "long": -72.515097,
-     "date": "2020-08-02"
-  },
-]
+{
+  "success": true,
+  "payload": [
+    {
+      "mid": 1,
+       "message": "Qué tal? Me gustó el hotel que reservé. 10 - 4.",
+       "sender": 86,
+       "receptant": 261,
+       "lat": -51.729782,
+       "long": -72.515097,
+       "date": "2020-08-02"
+    },
+  ]
+}
 ```
 ---
 
@@ -55,13 +50,16 @@ response: mensaje con ```mid: id``` (ej: `/messages/13`)
 
 ```json
 {
-    "mid": 13,
-    "message": "Te cuento que: Me encanta el metal. Me despido, saludos.",
-    "sender": 393,
-    "receptant": 392,
-    "lat": -27.374641,
-    "long": -90.97999,
-    "date": "2020-09-16"
+    "success": true,
+    "payload": {
+        "mid": 210,
+        "message": "A todo esto, por qué magikarps y shrek? no habían códigos mejores?",
+        "sender": 171,
+        "receptant": 212,
+        "lat": -20.736956,
+        "long": -70.182595,
+        "date": "2020-07-13"
+    }
 }
 ```
 ---
@@ -81,19 +79,74 @@ body:
 }
 ```
 
-response: ```204 NO CONTENT```
+response:
+```json
+{
+    "success": true,
+    "payload": "mensaje con mid 294 creado"
+}
+```
 
 ---
 
-```DELETE /message/:id```
+### ```DELETE /message/:id```
 
-response: ```204 NO CONTENT```
+response:
+```json
+{
+    "success": true,
+    "payload": "mensaje con id 23 eliminado"
+}
+```
 
 ---
 
-```GET /users```
+### ```GET /users```
 
-```GET /users/:id```
+response:
+```json
+{
+  "success": true,
+  "payload": [
+    {
+        "uid": 1,
+        "name": "Nigel Dickens",
+        "age": 36,
+        "description": "Soy jefe de una instalacion en el puerto Caleta Coloso"
+    },
+  ]
+}
+```
+---
+
+### ```GET /users/:id```
+
+response: información del usuario y todos los mensajes enviados por este
+
+```json
+{
+  "success": true,
+  "payload": {
+    "user": {
+        "uid": 12,
+        "name": "Christie Zavala",
+        "age": 55,
+        "description": "Soy jefe de una instalacion en el puerto Puerto Angamos"
+    },
+    "messages": [
+        {
+            "mid": 125,
+            "message": "Hola! Te quiero 3000. Cambio y fuera.",
+            "sender": 12,
+            "receptant": 455,
+            "lat": -23.079884,
+            "long": -70.385076,
+            "date": "2020-10-29"
+        },
+    ]
+  }
+}
+```
 
 ---
 
@@ -110,7 +163,7 @@ body:
 }
 ```
 
-response: array con todos los mensajes y el ```score``` asociado al número de matchs con ```desired```
+response:
 
 ```json
 [
@@ -122,7 +175,6 @@ response: array con todos los mensajes y el ```score``` asociado al número de m
         "lat": -50.291406,
         "long": -90.276865,
         "date": "2020-09-20",
-        "score": 1
     }
 ]
 ```
